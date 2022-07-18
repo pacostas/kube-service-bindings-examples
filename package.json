@@ -1,0 +1,7 @@
+{
+  "version": "0.0.1",
+  "name": "kube-service-bindings-examples",
+  "devDependencies": {
+    "eslint": "^8.15.0"
+  }
+}

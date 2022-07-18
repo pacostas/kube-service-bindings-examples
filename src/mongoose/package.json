@@ -1,0 +1,16 @@
+{
+  "name": "mongo-example-worker",
+  "version": "1.0.0",
+  "description": "A sample Node.js app that processes requests",
+  "license": "Apache-2.0",
+  "scripts": {
+    "pretest": "eslint --ignore-path ../.gitignore .",
+    "test": "node -e \"console.log('no tests found.')\"",
+    "start": "node app.js",
+    "dev": "npm run start"
+  },
+  "dependencies": {
+    "kube-service-bindings": "https://github.com/nodeshift/kube-service-bindings",
+    "mongoose": "^6.3.5"
+  }
+}
