@@ -212,7 +212,7 @@ By visiting developer mode on topology, you should be able to see the postgres c
 
 1. nodeshift deploy
    ```
-   nodeshift --namespace.name=<selected-project>
+   nodeshift --namespace.name=<selected-project> --expose
    ```
 
 ## Deploy Node.js app from OpenShift UI
