@@ -2,23 +2,46 @@
 
 ## Prerequisites
 
-- [OpenShift Cluster](/README.md#setup-an-openshift-cluster-on-a-red-hat-sandbox)
-- [Login to OpenShift](/README.md#login-to-openshift)
+- [Install Cluster locally on your PC](/README.md#setup-an-openshift-cluster-locally-on-you-pc)
 
-## MySQL DB - Node.js App
+**\*_NOTE:_** This tutorials is not available for **OpenShift cluster Sandbox** due to `Percona MySQL Operator` is not available/installed on **OpenShift Sandbox**.
 
-1. Install Service binding operator -> [instructions](/README.md#install-service-binding-operator)
+- Login to OpenShift Web console as Administrator
 
-1. Install Percona MySQL Operator -> [instructions](/README.md#install-percona-distribution-for-mysql-operator)
+* [Login to OpenShift with CLI](/README.md#login-to-openshift-with-cli)
 
-1. Deploy MySQL -> [instructions](/README.md#deploying-mysql---percona-xtradb-cluster)
+## Install Service Binding Operator
 
-1. Deploy Node.js App
+- [Instructions](../../README.md#install-service-binding-operator)
 
-   - Using Nodeshift -> [instructions](/README.md#deploy-nodejs-application-with-nodeshift)
+## Deploy MySQL
 
-   - Using OpenShift UI
-     [instructions](/README.md#deploy-nodejs-app-from-openshift-ui)
+- [instructions](/README.md#deploy-mysql---percona-xtradb-cluster-in-openshift)
 
-1. Connecting Node.js app using service binding operator
-   [instructions](/README.md#connecting-nodejs-app-using-service-binding-operator)
+## Install Percona MySQL Operator
+
+- [instructions](/README.md#install-percona-distribution-for-mysql-operator)
+
+## Deploy Node.js App
+
+- with Nodeshift [Instructions](../../README.md#deploy-nodejs-application-with-nodeshift)
+
+or
+
+- through the OpenShift UI [Instructions](../../README.md#deploy-nodejs-app-from-openshift-ui)
+
+## Connect Node.js app with MySQL - Binding
+
+- [Instructions](../../README.md#connecting-nodejs-app-using-service-binding-operator)
+
+## Interact with the Application
+
+By visiting application's UI, you are able to interact with the application by adding, fetching, editing and removing fruits.
+
+- [Further instructions](../../README.md#interact-with-the-application)
+
+## Viewing the logs
+
+Follow below instructions for further details on how to view the logs of the application
+
+- [Instructions](../../README.md#viewing-logs-of-the-app)

@@ -6,7 +6,7 @@
   "scripts": {
     "pretest": "eslint --ignore-path ../.gitignore .",
     "test": "node -e \"console.log('no tests found.')\"",
-    "start": "node app.js",
+    "start": "node server.js",
     "dev": "npm run start"
   },
   "dependencies": {

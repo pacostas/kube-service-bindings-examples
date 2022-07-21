@@ -1,0 +1,25 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: odbc-psql-app
+spec:
+  source:
+    git:
+      uri: "https://github.com/nodeshift-blog-examples/kube-service-bindings-examples.git"
+    contextDir: "src/odbc-psql"
+    type: Git
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStream
+        name: "odbc-psql-base"
+      env: []
+  output:
+    to:
+      kind: ImageStreamTag
+      name: odbc-psql-app:latest
+  triggers:
+    - type: ImageChange
+      imageChange: {}
+    - type: ConfigChange

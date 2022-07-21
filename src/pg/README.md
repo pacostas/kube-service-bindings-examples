@@ -1,23 +1,47 @@
-# POSTGRESQL - with odbc client
+# POSTGRESQL - pg client
 
 ## Prerequisites
 
-- [OpenShift Cluster](/README.md#setup-an-openshift-cluster-on-a-red-hat-sandbox)
-- [Login to OpenShift](/README.md#login-to-openshift)
+- [Install Cluster locally on your PC](/README.md#setup-an-openshift-cluster-locally-on-you-pc)
 
-## PSQL DB - Node.js App
-1. Install Crunchy DB operator -> [instructions](/README.md#install-crunchy-db-operator)
+**\*_NOTE:_** This tutorials is not available for **OpenShift cluster Sandbox** due to `Crunchy Postgres for Kubernetes` is not available/installed on **OpenShift Sandbox**.
 
-1. Install Service binding operator -> [instructions](/README.md#install-service-binding-operator)
+- Login to OpenShift Web console as Administrator
 
-1. Deploy Crunchy DB in OpenShift -> [instructions](/README.md#deploy-crunchy-db-in-openshift)
+* [Login to OpenShift with CLI](/README.md#login-to-openshift-with-cli)
 
-1. Deploy Node.js App
+## Install Crunchy DB operator & create postgres-operator namespace
 
-   - Using Nodeshift -> [instructions](/README.md#deploy-nodejs-application-with-nodeshift)
+- [instructions](/README.md#install-crunchy-db-operator)
 
-   - Using OpenShift UI
-     [instructions](/README.md#deploy-nodejs-app-from-openshift-ui)
+## Install Service Binding Operator
 
-1. Connecting Node.js app using service binding operator
-   [instructions](/README.md#connecting-nodejs-app-using-service-binding-operator)
+- [Instructions](../../README.md#install-service-binding-operator)
+
+## Deploy Crunchy DB in OpenShift
+
+- [instructions](/README.md#deploy-postgresql---crunchy-db-in-openshift)
+
+## Deploy Node.js App
+
+- with Nodeshift [Instructions](../../README.md#deploy-nodejs-application-with-nodeshift)
+
+or
+
+- through the OpenShift UI [Instructions](../../README.md#deploy-nodejs-app-from-openshift-ui)
+
+## Connect Node.js app with PSQL - Binding
+
+- [Instructions](../../README.md#connecting-nodejs-app-using-service-binding-operator)
+
+## Interact with the Application
+
+By visiting application's UI, you are able to interact with the application by adding, fetching, editing and removing fruits.
+
+- [Further instructions](../../README.md#interact-with-the-application)
+
+## Viewing the logs
+
+Follow below instructions for further details on how to view the logs of the application
+
+- [Instructions](../../README.md#viewing-logs-of-the-app)

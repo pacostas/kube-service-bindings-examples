@@ -1,5 +1,4 @@
 apiVersion: image.openshift.io/v1
 kind: ImageStream
 metadata:
-  name: odbc-psql-app
-  namespace: postgres-operator
+  name: odbc-psql-base

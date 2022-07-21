@@ -1,4 +1,7 @@
 const http = require("http");
+const { MongoClient } = require("mongodb");
+
+const serviceBindings = require("kube-service-bindings");
 
 const {
   getOne,
@@ -8,26 +11,23 @@ const {
   deleteOne
 } = require("./controllers/fruits.js");
 
-const { ready, live, notFound404 } = require("./hanlders/index.js");
+const { ready, live, notFound404 } = require("./handlers/index.js");
 
 const { serveIndex } = require("./public/index.js");
-const { MongoClient } = require("mongodb");
 
-const PORT = process.env.PORT || 3004;
+const PORT = process.env.PORT || 8080;
 const dbName = process.env.MONGO_DB_NAME || "my_app_db";
 
-let mongoConnection;
 let db;
 
 let url;
 let connectionOptions;
 
-const serviceBindings = require("kube-service-bindings");
-
 try {
-  mongoConnection = serviceBindings.getBinding("MONGODB", "mongodb");
-  url = mongoConnection.url;
-  connectionOptions = mongoConnection.connectionOptions;
+  ({ url, connectionOptions } = serviceBindings.getBinding(
+    "MONGODB",
+    "mongodb"
+  ));
 } catch (err) {
   url = "mongodb://root:root@127.0.0.1:27017";
   connectionOptions = { auth: { password: "password", username: "root" } };
@@ -38,7 +38,7 @@ const mongoClient = new MongoClient(url, connectionOptions);
 async function run() {
   await mongoClient.connect();
   db = mongoClient.db(dbName);
-  console.log("Connected successfully to server");
+  console.log("Connected successfully to database");
   return "ok";
 }
 
