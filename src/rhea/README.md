@@ -49,6 +49,6 @@ or
 
 - through the OpenShift UI [Instructions](../../README.md#deploy-nodejs-app-from-openshift-ui)
 
-## Connect Node.js app with mongoDB - Binding
+## Connect Node.js app with RabbitMQ - Binding
 
 - [Instructions](../../README.md#connecting-nodejs-app-using-service-binding-operator)
