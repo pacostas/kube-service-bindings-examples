@@ -1,0 +1,24 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: odbc-psql-base
+spec:
+  source:
+    dockerfile: |
+      FROM registry.access.redhat.com/ubi8/nodejs-16
+      USER root
+      RUN yum install -y libpq-devel.x86_64 unixODBC-devel
+      RUN curl https://ftp.postgresql.org/pub/odbc/versions/src/psqlodbc-13.02.0000.tar.gz --output psqlodbc-13.02.0000.tar.gz
+      RUN tar -zxvf psqlodbc-13.02.0000.tar.gz
+      WORKDIR ./psqlodbc-13.02.0000
+      RUN ./configure
+      RUN make
+      RUN make install
+      RUN sed -i -e 's|Driver64	= /usr/lib64/psqlodbcw.so|Driver64		= /usr/local/lib/psqlodbcw.so|g' /etc/odbcinst.ini
+      USER 1001
+  strategy:
+    type: Docker
+  output:
+    to:
+      kind: ImageStreamTag
+      name: odbc-psql-base:latest

@@ -1,0 +1,16 @@
+{
+  "name": "mysql2-example",
+  "version": "1.0.0",
+  "description": "A sample Node.js using mysql client",
+  "license": "Apache-2.0",
+  "scripts": {
+    "pretest": "eslint --ignore-path ../.gitignore .",
+    "test": "node -e \"console.log('no tests found.')\"",
+    "dev": "npm run start",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "kube-service-bindings": "https://github.com/nodeshift/kube-service-bindings",
+    "mysql": "^2.18.1"
+  }
+}

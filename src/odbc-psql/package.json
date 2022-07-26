@@ -1,0 +1,16 @@
+{
+  "name": "odbc-example-worker",
+  "version": "1.0.0",
+  "description": "A sample Node.js app that processes requests",
+  "license": "Apache-2.0",
+  "scripts": {
+    "pretest": "eslint --ignore-path ../.gitignore .",
+    "test": "node -e \"console.log('no tests found.')\"",
+    "start": "node server.js",
+    "dev": "npm run start"
+  },
+  "dependencies": {
+    "kube-service-bindings": "https://github.com/nodeshift/kube-service-bindings",
+    "odbc": "^2.4.3"
+  }
+}
