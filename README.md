@@ -1,6 +1,6 @@
 # kube-service-bindings
 
-A repository with examples and links to examples utilizing [kube-service-bindings](https://www.npmjs.com/package/kube-service-bindings) npm package:
+A repository with examples and links to examples utilizing the [kube-service-bindings](https://www.npmjs.com/package/kube-service-bindings) npm package:
 
 - KAFKA
   - [node-rdkafka](https://github.com/nodeshift-starters/reactive-example/tree/node-rdkafka)
