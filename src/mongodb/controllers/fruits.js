@@ -1,46 +1,55 @@
-const { ObjectId } = require("mongodb");
+const fruits = require("../lib/queries/fruits.js");
 
-const collectionName = "fruits";
-
-module.exports.getOne = (req, res, db) => {
+module.exports.getOne = (req, res) => {
   const id = req.url
     .toLowerCase()
     .split("/")
     .filter((_) => _ !== "/")
     .pop();
 
-  db.collection(collectionName)
-    .find({ _id: ObjectId(id) })
-    .toArray()
+  fruits
+    .find(id)
     .then((result) => {
+      if (result.rowCount === 0) {
+        res.writeHead(404);
+        return res.end(`Item ${id} not found`);
+      }
+
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify(result));
+      return res.end(result.rows[0]);
     })
-    .catch((err) => console.error(`Something went wrong: ${err}`));
+    .catch((err) => {
+      console.log(err);
+      res.writeHead(400).end();
+    });
 };
 
-module.exports.getAll = (req, res, db) => {
-  db.collection(collectionName)
-    .find({})
-    .toArray()
-    .then((result) => {
-      res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify(result));
+module.exports.getAll = (req, res) => {
+  fruits
+    .findAll()
+    .then((results) => {
+      Object.values(JSON.parse(JSON.stringify(results)));
+      res.end(
+        JSON.stringify(Object.values(JSON.parse(JSON.stringify(results))))
+      );
     })
-    .catch((err) => console.error(`Something went wrong: ${err}`));
+    .catch((error) => {
+      console.log(error);
+      res.writeHead(400).end();
+    });
 };
 
-module.exports.createOne = (req, res, db) => {
+module.exports.createOne = (req, res) => {
   let data = "";
   req.on("data", (chunk) => {
     data += chunk;
   });
 
   req.on("end", () => {
-    const fruit = JSON.parse(data);
+    const { name, stock } = JSON.parse(data);
 
-    db.collection(collectionName)
-      .insertOne(fruit)
+    fruits
+      .create(name, stock)
       .then((result) => {
         res.statusCode = 201;
         res.end(JSON.stringify({ data: result }));
@@ -52,7 +61,7 @@ module.exports.createOne = (req, res, db) => {
   });
 };
 
-module.exports.updateOne = (req, res, db) => {
+module.exports.updateOne = (req, res) => {
   const id = req.url
     .toLowerCase()
     .split("/")
@@ -65,64 +74,45 @@ module.exports.updateOne = (req, res, db) => {
   });
 
   req.on("end", () => {
-    const fruit = JSON.parse(data);
+    const body = JSON.parse(data);
+    const { name, stock } = body;
 
-    const filter = {
-      _id: ObjectId(id)
-    };
-
-    const updateDoc = {
-      $set: fruit
-    };
-
-    db.collection(collectionName).updateOne(
-      filter,
-      updateDoc,
-      function (error, result) {
-        if (!error) {
-          if (result.matchedCount === 1) {
-            res.statusCode = 204;
-            res.end();
-          } else {
-            res.statusCode = 404;
-            res.end(`Unknown item ${id}`);
-          }
-          res.end();
-        } else {
-          res.statusCode = 400;
-          res.end(error);
+    fruits
+      .update({ name, stock, id })
+      .then((result) => {
+        if (result.rowCount === 0) {
+          res.statusCode = 404;
+          res.end(`Unknown item ${id}`);
         }
-      }
-    );
+        res.statusCode = 204;
+        res.end();
+      })
+      .catch((error) => {
+        res.statusCode = 400;
+        res.end(error);
+      });
   });
 };
 
-module.exports.deleteOne = (req, res, db) => {
+module.exports.deleteOne = (req, res) => {
   const id = req.url
     .toLowerCase()
     .split("/")
     .filter((_) => _ !== "/")
     .pop();
 
-  if (!ObjectId.isValid(id)) {
-    res.statusCode = 400;
-    return res.end("wrong id format");
-  }
-
-  const doc = { _id: ObjectId(id) };
-  db.collection(collectionName).deleteOne(doc, function (error, result) {
-    if (!error) {
-      if (result.deletedCount === 1) {
-        res.statusCode = 204;
-        res.end();
-      } else {
+  fruits
+    .remove(id)
+    .then((result) => {
+      if (result.affectedRows === 0) {
         res.statusCode = 404;
-        res.end(`Unknown item ${id}`);
+        return res.end(`Unknown item ${id}`);
       }
+      res.statusCode = 204;
       res.end();
-    } else {
+    })
+    .catch((error) => {
       res.statusCode = 400;
       res.end(error);
-    }
-  });
+    });
 };
