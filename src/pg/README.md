@@ -1,4 +1,4 @@
-# POSTGRESQL - pg client
+# Node.js - POSTGRESQL with pg client
 
 ## Prerequisites
 
@@ -22,13 +22,29 @@
 
 - [instructions](/README.md#deploy-postgresql---crunchy-db-in-openshift)
 
-## Deploy Node.js App
+## Option 1: Deploy Node.js app with Nodeshift
 
-- with Nodeshift [Instructions](../../README.md#deploy-nodejs-application-with-nodeshift)
+1. [Install and Login with Nodeshift to Openshift](../../README.md#install-nodeshift)
+1. Clone Node.js app repository
 
-or
+   ```
+   git clone https://github.com/nodeshift-blog-examples/kube-service-bindings-examples.git
+   ```
 
-- through the OpenShift UI [Instructions](../../README.md#deploy-nodejs-app-from-openshift-ui)
+1. Navigate to pg app source code
+
+   ```
+   cd kube-service-bindings-examples/src/pg
+   ```
+
+1. Deploy with Nodeshift
+   ```
+   nodeshift --namespace.name=postgres-operator --expose
+   ```
+
+## Option 2: Deploy Node.js App through the OpenShift UI
+
+- [Instructions](../../README.md#deploy-nodejs-app-from-openshift-ui)
 
 ## Connect Node.js app with PSQL - Binding
 
