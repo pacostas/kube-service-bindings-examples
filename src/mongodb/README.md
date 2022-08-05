@@ -1,21 +1,22 @@
-# MongoDB - mongodb client
+# Node.js - MongoDB with mongodb client
 
 ## Prerequisites
 
-- [OpenShift Cluster on SandBox](/README.md#setup-an-openshift-cluster-on-a-red-hat-sandbox) or [OpenShift Cluster locally on your PC](/README.md#setup-an-openshift-cluster-locally-on-you-pc)
-<!-- - [Login to OpenShift with CLI](/README.md#login-to-openshift-with-cli) -->
+- [OpenShift Cluster on SandBox](/README.md#setup-an-openshift-cluster-on-a-red-hat-sandbox)
+<!-- or [OpenShift Cluster locally on your PC](/README.md#setup-an-openshift-cluster-locally-on-you-pc) -->
 
 ## Install Service Binding Operator
 
-**\*_NOTE:_** In case of **OpenShift cluster Sandbox**, Service binding Operator is already installed so you can skip this step.
+**\*_NOTE:_** In **OpenShift cluster Sandbox**, Service binding Operator is already installed so no further action is needed.
 
-- [Instructions](../../README.md#install-service-binding-operator)
+<!--
+- [Instructions](../../README.md#install-service-binding-operator) -->
 
 ## Install OpenShift Database Access Operator
 
-**\*_NOTE:_** In case of **OpenShift cluster Sandbox**, OpenShift Database Access Operator is already installed so you can skip this step.
+**\*_NOTE:_** In **OpenShift cluster Sandbox**, OpenShift Database Access Operator is already installed so no further action is needed.
 
-**\*_NOTE:_** In **OpenShift locally** Database Access Operator is not yet available, so in that case use OpenShift Sandbox to continue with the tutorial.
+<!-- **\*_NOTE:_** In **OpenShift locally** Database Access Operator is not yet available, so in that case use OpenShift Sandbox to continue with the tutorial. -->
 
 ## Create a mongoDB on mongoDB Atlas
 
@@ -37,20 +38,36 @@
 ## Deploying mongoDB database as Cloud-Hosted Database
 
 1.  Visit topology view, by selecting developer perspective (left sidebar menu) -> topology
-1.  Validate you have selecTed to deploy the DB on the correct project/namespace. For further instructions on selecting a namespace please follow below link.
+1.  Validate you have selected to deploy the DB on the correct project/namespace. For further instructions on selecting a namespace please follow below link.
 
     - [Project/namespace selection instructions](../../README.md#select-namespaceproject)
 
 1.  Click on +Add button (left sidebar menu)-> Cloud-Hosted Database -> MongoDB Atlas Cloud Database Service -> Add to Topology -> Select your Database instance -> Add to topology -> Continue
 1.  Upon successful Connection you are taken to the Topology view, where the Cloud-Hosted Database is deployed and visible on the Topology view.
 
-## Deploy Node.js App
+## Option 1: Deploy Node.js app with Nodeshift
 
-- with Nodeshift [Instructions](../../README.md#deploy-nodejs-application-with-nodeshift)
+1. [Install and Login with Nodeshift to Openshift](../../README.md#install-nodeshift)
+1. Clone Node.js app repository
 
-or
+   ```
+   git clone https://github.com/nodeshift-blog-examples/kube-service-bindings-examples.git
+   ```
 
-- through the OpenShift UI [Instructions](../../README.md#deploy-nodejs-app-from-openshift-ui)
+1. Navigate to mongodb app source code
+
+   ```
+   cd kube-service-bindings-examples/src/mongodb
+   ```
+
+1. Deploy with Nodeshift
+   ```
+   nodeshift --namespace.name=<selected-namespace> --expose
+   ```
+
+## Option 2: Deploy Node.js App through the OpenShift UI
+
+- [Instructions](../../README.md#deploy-nodejs-app-from-openshift-ui)
 
 ## Connect Node.js app with mongoDB - Binding
 
