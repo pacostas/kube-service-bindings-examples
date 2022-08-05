@@ -1,15 +1,16 @@
 const { ObjectId } = require("mongodb");
 
-const collectionName = "fruits";
+const { Fruit } = require("../models/fruits.js");
+const fruits = require("../lib/queries/fruits.js");
 
-module.exports.getOne = (req, res, model) => {
+module.exports.getOne = (req, res) => {
   const id = req.url
     .toLowerCase()
     .split("/")
     .filter((_) => _ !== "/")
     .pop();
 
-  model
+  fruits
     .find({ _id: ObjectId(id) })
     .then((result) => {
       res.writeHead(200, { "Content-Type": "application/json" });
@@ -21,9 +22,9 @@ module.exports.getOne = (req, res, model) => {
     });
 };
 
-module.exports.getAll = (req, res, model) => {
-  model
-    .find({})
+module.exports.getAll = (req, res) => {
+  fruits
+    .findAll({})
     .then((result) => {
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify(result));
@@ -34,7 +35,7 @@ module.exports.getAll = (req, res, model) => {
     });
 };
 
-module.exports.createOne = (req, res, model) => {
+module.exports.createOne = (req, res) => {
   let data = "";
   req.on("data", (chunk) => {
     data += chunk;
@@ -43,7 +44,7 @@ module.exports.createOne = (req, res, model) => {
   req.on("end", () => {
     const fruit = JSON.parse(data);
 
-    const itemToDB = new model(fruit);
+    const itemToDB = new Fruit(fruit);
 
     itemToDB
       .save()
@@ -58,7 +59,7 @@ module.exports.createOne = (req, res, model) => {
   });
 };
 
-module.exports.updateOne = (req, res, model) => {
+module.exports.updateOne = (req, res) => {
   const id = req.url
     .toLowerCase()
     .split("/")
@@ -71,58 +72,46 @@ module.exports.updateOne = (req, res, model) => {
   });
 
   req.on("end", () => {
-    const fruit = JSON.parse(data);
+    const body = JSON.parse(data);
+    const { name, stock } = body;
 
-    model
-      .find({ _id: ObjectId(id) })
+    fruits
+      .update({ name, stock, id })
       .then((result) => {
-        const updatedFruit = Object.assign(fruit, result);
-        const itemToDB = new model(updatedFruit);
-
-        itemToDB
-          .save()
-          .then((result) => {
-            res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(JSON.stringify(result));
-          })
-          .catch((error) => {
-            res.statusCode = 400;
-            res.end(JSON.stringify({ error: error }));
-          });
+        if (result.rowCount === 0) {
+          res.statusCode = 404;
+          res.end(`Unknown item ${id}`);
+        }
+        res.statusCode = 204;
+        res.end();
       })
       .catch((error) => {
         res.statusCode = 400;
-        res.end(JSON.stringify({ error: error }));
+        res.end(error);
       });
   });
 };
 
-module.exports.deleteOne = (req, res, model) => {
+module.exports.deleteOne = (req, res) => {
   const id = req.url
     .toLowerCase()
     .split("/")
     .filter((_) => _ !== "/")
     .pop();
 
-  if (!ObjectId.isValid(id)) {
-    res.statusCode = 400;
-    return res.end("wrong id format");
-  }
-
-  const doc = { _id: ObjectId(id) };
-  model.deleteOne(doc, function (error, result) {
-    if (!error) {
-      if (result.deletedCount === 1) {
-        res.statusCode = 204;
-        res.end();
-      } else {
+  fruits
+    .remove(id)
+    .then((result) => {
+      if (result.affectedRows === 0) {
         res.statusCode = 404;
-        res.end(`Unknown item ${id}`);
+        return res.end(`Unknown item ${id}`);
       }
+      res.statusCode = 204;
       res.end();
-    } else {
+    })
+    .catch((error) => {
+      console.log(error);
       res.statusCode = 400;
-      res.end(error);
-    }
-  });
+      return res.end(JSON.stringify(error));
+    });
 };
