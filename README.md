@@ -189,30 +189,17 @@ By visiting developer mode on topology, you should be able to see the postgres c
 
 ![cluster deployment](./readme-assets/crunchy_postgres_cluster_deploy.png)
 
-## Deploy Node.js application with Nodeshift
+## Install Nodeshift
 
-1. Install nodeshift (https://www.npmjs.com/package/nodeshift)
-
+1. Install globally Nodeshift npm package
    ```
    npm install -g nodeshift
    ```
 
-1. login with nodeshift
+1. login with Nodeshift to Openshift 
 
    ```
    nodeshift login --token=sha256~aaaaaaaa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa --server=https://your.oc.instance.url:6443
-   ```
-
-1. clone example app
-
-   ```
-   git clone https://github.com/nodeshift-blog-examples/kube-service-bindings-examples.git
-   cd kube-service-bindings-examples/src/pg
-   ```
-
-1. nodeshift deploy
-   ```
-   nodeshift --namespace.name=<selected-project> --expose
    ```
 
 ## Deploy Node.js app from OpenShift UI
@@ -220,12 +207,12 @@ By visiting developer mode on topology, you should be able to see the postgres c
 1. Switch to developer mode
 1. Select +Add from the sidebar menu
 1. click on Import from Git
-1. On Git Repo URL set `https://github.com/pacostas/kube-service-bindings-examples.git`
+1. On Git Repo URL set `https://github.com/nodeshift/kube-service-bindings-examples.git`
 1. Click on show advanced Git options -> Context Dir set `/src/<app-folder>` -> Create
 
 ## Connecting Node.js app using service binding operator
 
-Simply by dragging a line between the deployed app and the additional component used by the example (for example DB cluster) you should be able to share credentials between those two. The image below shows doing this with a database:
+Simply by dragging a line between the deployed app and the additional component used by the example (for example DB cluster) you should be able to share credentials between those two. The image below shows this action between a Node.js app and a database:
 
 ![Credentials through service bidning](./readme-assets/credentials_through_service_binding.png)
 
