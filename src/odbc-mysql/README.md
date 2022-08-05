@@ -1,29 +1,12 @@
-# MySQL - mysql2-odbc
+# Node.js - MySQL with odbc client
 
-## Prerequisites
-
-- [OpenShift Cluster](/README.md#setup-an-openshift-cluster-on-a-red-hat-sandbox)
-- [Login to OpenShift](/README.md#login-to-openshift)
-
-## Tutorial Reference
-
-- https://access.crunchydata.com/documentation/postgres-operator/5.1.0/tutorial/
-
-## Install Service Binding Operator
-
-- [Instructions](../../README.md#install-service-binding-operator)
-
-## Deploy MySQL
-
-- [instructions](/README.md#deploy-mysql---percona-xtradb-cluster-in-openshift)
-
-## Install Percona MySQL Operator
-
-- [instructions](/README.md#install-percona-distribution-for-mysql-operator)
+The steps are exactly the same as on mysql [example](../mysql/README.md) except as below sections
 
 ## Create base image for odbc mysql
 
-1. clone example app
+**\*_NOTE:_** This step is after the step [Deploy MySQL](../mysql/README.md#deploy-mysql)
+
+1. Clone example app
 
    ```
    git clone https://github.com/nodeshift-blog-examples/kube-service-bindings-examples.git
@@ -52,7 +35,23 @@
 
    - [Instructions](../../README.md#watch-build-progress-of-build-config)
 
-## Deploy Node.js App with OpenShift Web Console
+## Option 1: Deploy Node.js App WITH Nodeshift
+
+1. Install nodeshift (https://www.npmjs.com/package/nodeshift)
+
+   ```
+   npm install -g nodeshift
+   ```
+
+1. Login with nodeshift `nodeshift login --token=sha256~aaaaaaaa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa --server=https://your.oc.instance.url:6443`
+
+1. Deploy Node.js with nodeshift using as base image the base image stream we created previously
+
+   ```
+   nodeshift --imageStream=odbc-mysql-base --expose
+   ```
+
+## Option 2: Deploy Node.js App with OpenShift Web Console
 
 1. Create app as imagestream
 
@@ -83,19 +82,3 @@
 1. Click on the radio button `Image stream tag from internal registry`
 1. Select the `odbc-mysql-app` image stream and set as tag the `latest`
 1. Click on Create button
-
-## Deploy Node.js App WITH Nodeshift
-
-1. Install nodeshift (https://www.npmjs.com/package/nodeshift)
-
-   ```
-   npm install -g nodeshift
-   ```
-
-1. Login with nodeshift `nodeshift login --token=sha256~aaaaaaaa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa --server=https://your.oc.instance.url:6443`
-
-1. Deploy Node.js with nodeshift using as base image the base image stream we created previously
-
-   ```
-   nodeshift --imageStream=odbc-mysql-base --expose
-   ```
