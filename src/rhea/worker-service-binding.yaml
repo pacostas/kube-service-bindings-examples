@@ -1,0 +1,17 @@
+kind: ServiceBinding
+apiVersion: binding.operators.coreos.com/v1alpha1
+metadata:
+  name: worker-to-rabbitmq
+  namespace: rhea-example
+spec:
+  application:
+    group: apps.openshift.io
+    kind: DeploymentConfig
+    name: nodejs-messaging-work-queue-worker
+    version: v1
+  bindAsFiles: true
+  services:
+    - group: rabbitmq.com
+      kind: RabbitmqCluster
+      name: hello-world
+      version: v1beta1
