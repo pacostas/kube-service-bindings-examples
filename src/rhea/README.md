@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- [OpenShift Cluster on SandBox](/README.md#setup-an-openshift-cluster-on-a-red-hat-sandbox) or [OpenShift Cluster locally on your PC](/README.md#setup-an-openshift-cluster-locally-on-you-pc)
+- [OpenShift Cluster on SandBox](/README.md#setup-an-openshift-cluster-on-a-red-hat-sandbox) or [OpenShift Cluster locally on your PC](/README.md#setup-an-openshift-cluster-locally-on-your-pc)
 <!-- - [Login to OpenShift with CLI](/README.md#login-to-openshift-with-cli) -->
 
 - [Login to OpenShift with CLI](/README.md#login-to-openshift-with-cli)
@@ -15,13 +15,13 @@
 
 ## Deploy RabbitMQ on OpenShift
 
-Lets create a namespace where the whole setup will be hosted.
+Let's create a namespace where the whole setup will be hosted.
 
 ```
 oc create namespace rhea-example
 ```
 
-After creating the namespace, next step is to deploy RabbitMQ. Below commands are from this tutorial: https://github.com/rabbitmq/cluster-operator
+After creating the namespace, the next step is to deploy RabbitMQ. Below commands are from this tutorial: https://github.com/rabbitmq/cluster-operator
 
 ```
 oc apply -f https://github.com/rabbitmq/cluster-operator/releases/latest/download/cluster-operator.yml
@@ -44,7 +44,7 @@ Configuration Reference:
 
 1. Click on the pod -> left sidebar -> Resources -> View logs as shown on the image below.
    ![RabbitMQ pod deployed](./readme-assets/rabbitmq-pod-deployed.png)
-1. Click on the terminal tab and set below command
+1. Click on the terminal tab and set the below command
 
    ```
    rabbitmq-plugins enable rabbitmq_amqp1_0
@@ -88,22 +88,22 @@ Configuration Reference:
 
 1. Switch to developer mode
 1. Select +Add from the left sidebar menu
-1. click on Import from Git
+1. Click on Import from Git
 1. On Git Repo URL set `https://github.com/nodeshift-starters/nodejs-messaging-work-queue.git`
 1. Click on show advanced Git options -> Context Dir set `/worker` -> Create
-1. Select +Add from the left idebar menu
-1. click on Import from Git
+1. Select +Add from the left sidebar menu
+1. Click on Import from Git
 1. On Git Repo URL set `https://github.com/nodeshift-starters/nodejs-messaging-work-queue.git`
 1. Click on show advanced Git options -> Context Dir set `/frontend` -> Create
 
 ## Connect Node.js app with rhea - Binding
 
-At this point you should have frontend, worker and rabbitmq pods deployed as shown on the image below.
+At this point, you should have frontend, worker and rabbitmq pods deployed as shown in the image below.
 
 ![deployed rabbitmq,frontend and worker](./readme-assets/all-apps-deployed.png)
 
 Next step is to exchange credentials between the rabbitmq and the pods for establishing a connection. We will do that by creating a service binding. That way kube-service-bindings will be able to consume the credentials and feed them to rhea client.
-Unfortunately creating service binding is not yet supported by the topology UI by dragging a line in this specific case. Instead we will use the CLI to apply the yaml files.
+Unfortunately creating service binding is not yet supported by the topology UI by dragging a line in this specific case. Instead, we will use the CLI to apply the yaml files.
 
 ```
 oc apply -f frontend-service-binding.yaml
