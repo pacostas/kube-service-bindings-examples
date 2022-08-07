@@ -3,7 +3,7 @@
 ## Prerequisites
 
 - [OpenShift Cluster on SandBox](/README.md#setup-an-openshift-cluster-on-a-red-hat-sandbox)
-<!-- or [OpenShift Cluster locally on your PC](/README.md#setup-an-openshift-cluster-locally-on-you-pc) -->
+<!-- or [OpenShift Cluster locally on your PC](/README.md#setup-an-openshift-cluster-locally-on-your-pc) -->
 
 ## Install Service Binding Operator
 
@@ -22,7 +22,7 @@
 
 1.  Create an account on mongoDB Atlas, if you don't already have one visit below link to register https://www.mongodb.com/cloud/atlas/register
 1.  Sign in
-1.  Create a Project by clicking on Projects (in left sidebar) -> New Project -> Choose a name for your project -> Create Project
+1.  Create a Project by clicking on Projects (in the left sidebar) -> New Project -> Choose a name for your project -> Create Project
 1.  Create a mongoDB database inside this project by clicking on the Build Database button and on the next page click on the Create button on the FREE plan -> create cluster. Leave the values to default while creating the cluster.
 1.  Create a user for the mongoDB database: Database Access (left sidebar) -> Add new Database user -> Choose a username and password -> Create user
 
@@ -43,7 +43,7 @@
     - [Project/namespace selection instructions](../../README.md#select-namespaceproject)
 
 1.  Click on +Add button (left sidebar menu)-> Cloud-Hosted Database -> MongoDB Atlas Cloud Database Service -> Add to Topology -> Select your Database instance -> Add to topology -> Continue
-1.  Upon successful Connection you are taken to the Topology view, where the Cloud-Hosted Database is deployed and visible on the Topology view.
+1.  Upon successful connection you are taken to the Topology view, where the Cloud-Hosted Database is deployed and visible on the Topology view.
 
 ## Option 1: Deploy Node.js app with Nodeshift
 
@@ -81,6 +81,11 @@ By visiting application's UI, you are able to interact with the application by a
 
 ## Viewing the logs
 
-Follow below instructions for further details on how to view the logs of the application
+Follow the below instructions for further details on how to view the logs of the application
 
 - [Instructions](../../README.md#viewing-logs-of-the-app)
+
+## Application's File/Folder Structure
+
+More information about the structure of the Node.js App we deployed, please follow below link 
+* [Application's structure](../../README.md#nodejs-applications-folder-structure)

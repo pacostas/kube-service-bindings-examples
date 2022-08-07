@@ -2,9 +2,9 @@
 
 ## Prerequisites
 
-- [Install Cluster locally on your PC](/README.md#setup-an-openshift-cluster-locally-on-you-pc)
+- [Install Cluster locally on your PC](/README.md#setup-an-openshift-cluster-locally-on-your-pc)
 
-**\*_NOTE:_** This tutorials is not available for **OpenShift cluster Sandbox** due to `Percona MySQL Operator` is not available/installed on **OpenShift Sandbox**.
+**\*_NOTE:_** This tutorial is not available for **OpenShift cluster Sandbox** due to `Percona MySQL Operator` is not available/installed on **OpenShift Sandbox**.
 
 - Login to OpenShift Web console as Administrator
 
@@ -61,3 +61,8 @@ By visiting application's UI, you are able to interact with the application by a
 Follow below instructions for further details on how to view the logs of the application
 
 - [Instructions](../../README.md#viewing-logs-of-the-app)
+
+## Application's File/Folder Structure
+
+More information about the structure of the Node.js App we deployed, please follow below link 
+* [Application's structure](../../README.md#nodejs-applications-folder-structure)
