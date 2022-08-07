@@ -25,7 +25,7 @@ A repository with examples and links to examples utilizing the [kube-service-bin
 
 The examples listed need some common configuration along with some additional components needed by the example itself. In terms of common configuration they all need an OpenShift cluster and the service binding operator installed. As an example of additional components, the example showing how to use MYSQL with kube-service-bindings needs a MYSQL database installed.
 
-This section explains how to install those common and additional components. The README.md for each of the examples within this repo (not the external examples) which reference these instructions and tell you specifically what you need to install and in what order.
+This section explains how to install those common and additional components. The README.md for each of the examples within this repo (not the external examples) references these instructions and tell you specifically what you need to install and in what order.
 
 ## Select namespace/project
 
@@ -33,7 +33,7 @@ This section explains how to install those common and additional components. The
 
    ![Administrator mode picture](./readme-assets/adminMode.png)
 
-1. Click on topology button, located on left sidebar.
+1. Click on the topology button, located on the left sidebar.
 
    ![project namespace selection](./readme-assets/click_on_topology.png)
 
@@ -43,7 +43,7 @@ This section explains how to install those common and additional components. The
 
 ## Setup an OpenShift cluster on a Red Hat sandbox
 
-Developer Sandbox hosted on the cloud provided for free by Red Hat, is a quick and easy way which requires zero setup with just a few clicks required only in creating a Red Hat account.
+Developer Sandbox hosted on the cloud provided for free by Red Hat, is a quick and easy way that requires zero setup with just a few clicks required only in creating a Red Hat account.
 
 Steps for creating an OpenShift Cluster:
 
@@ -53,28 +53,28 @@ Steps for creating an OpenShift Cluster:
 1. After completing your registration, you get redirected to the initial page. Click on “Launch your Developer Sandbox for Red Hat Openshift”
 1. Log in with your previously created Red Hat account
 1. Fill the form with your personal information and click submit
-1. Confirm your mobile phone number via text (don't forget to click on the Send Code button after filling you phone number)
+1. Confirm your mobile phone number via text (don't forget to click on the Send Code button after filling your phone number)
 1. Click on the “Start using your sandbox” button and your sandbox will start immediately!
 
-More information about the Developer Sandbox on its resources and pre installed software are available [here](https://developers.redhat.com/developer-sandbox).
+More information about the Developer Sandbox on its resources and pre-installed software is available [here](https://developers.redhat.com/developer-sandbox).
 
-## Setup an OpenShift cluster locally on you pc.
+## Setup an OpenShift cluster locally on your pc.
 
-Visit below url and click on Install `OpenShift on your laptop` button to start the installation guide:
+Visit below URL and click on Install `OpenShift on your laptop` button to start the installation guide:
 
 - https://developers.redhat.com/products/openshift-local/overview
 
-As described on the above guide, in order to install the OpenShift locally you have to download Openshift and add it to your PATH environment.
+As described in the above guide, in order to install the OpenShift locally you have to download Openshift and add it to your PATH environment.
 
 ## Install OpenShift CLI (OC)
 
-You can find istructions on how to install OpenShift CLI on below url:
+You can find instructions on how to install OpenShift CLI on below url:
 
 - https://docs.openshift.com/container-platform/latest/openshift_cli/getting-started-cli.html
 
 ## Login to OpenShift with CLI
 
-Visit OpenShift cluster and on upper right corner, click to expand your username. A dropdown will appear and by clicking on Copy login command you will be transferred to another page -> Display Token, copy the command looking similar to the below one and execute it on your terminal.
+Visit OpenShift cluster and in upper right corner, click to expand your username. A dropdown will appear and by clicking on Copy login command you will be transferred to another page -> Display Token, copy the command looking similar to the below one and execute it on your terminal.
 
 ```
 oc login --token=sha256~aaaaaaaa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa --server=https://your.oc.instance.url:6443
@@ -85,7 +85,7 @@ oc login --token=sha256~aaaaaaaa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa --server=ht
 1. Switch to Administrator view
 1. Upper left sidebar
 1. Click on Builds dropdown menu -> Builds
-1. By clicking on the build that is on running state, you are ale to see the logs of the build.
+1. By clicking on the build that is in running state, you are able to see the logs of the build.
 
 ![steps of building build config](./readme-assets/build_config_logs.png)
 
@@ -192,11 +192,12 @@ By visiting developer mode on topology, you should be able to see the postgres c
 ## Install Nodeshift
 
 1. Install globally Nodeshift npm package
+
    ```
    npm install -g nodeshift
    ```
 
-1. login with Nodeshift to Openshift 
+1. login with Nodeshift to Openshift
 
    ```
    nodeshift login --token=sha256~aaaaaaaa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa --server=https://your.oc.instance.url:6443
@@ -206,7 +207,7 @@ By visiting developer mode on topology, you should be able to see the postgres c
 
 1. Switch to developer mode
 1. Select +Add from the sidebar menu
-1. click on Import from Git
+1. Click on Import from Git
 1. On Git Repo URL set `https://github.com/nodeshift/kube-service-bindings-examples.git`
 1. Click on show advanced Git options -> Context Dir set `/src/<app-folder>` -> Create
 
@@ -233,3 +234,54 @@ To View the logs of the app, Visit topology, click on the deployed application a
 ![Viewing logs of the app](./readme-assets/view_logs.png)
 
 For CRUD action on the fruits on the UI, the log will appear on the server.
+
+## Node.js Applications folder structure
+
+All the examples listed on this repository except the rhea one, are following the same folder structure as shown below.
+
+```
+├── controllers
+│   └── fruits.js
+├── handlers
+│   └── index.js
+├── lib
+│   ├── db
+│   │   └── index.js
+│   └── queries
+│       └── fruits.js
+├── package.json
+├── package-lock.json
+├── public
+│   ├── index.html
+│   └── index.js
+├── README.md
+└── server.js
+
+```
+
+- **/controllers** : For each entity, we have the corresponding controller. Each controller is responsible for fetching the requested data from the Database. In our examples, we have only the Fruit entity, but we can easily add more entities by creating another controller, under the "controllers" directory. Across the examples, the controller code is the same. We succeed that by using the module exported by the /lib/queries/fruits file.
+
+- **/lib/queries**: For each entity, we have the corresponding file under the /lib/queries directory. In our case, we have only one, the fruit.js.
+  The controller uses the corresponding file for the entity that wants to serve, which contains the custom logic for fetching the data from the database. Before each query, we have to establish a connection to the database or validate that the connection is still open otherwise the query fails, for this purpose we use the /lib/db.
+
+- **/lib/db**: For establishing a connection with the database we utilize the `init` module exported by the /lib/db/index.js file. The purpose of this module is:
+
+  - To establish a connection with the database by using **kube-service-bindings** npm package
+  - Seed the database
+  - Provide a connection object, named either query or getDB.
+
+* **/handlers**: In our examples, handlers are responsible for handling the requests that the controller is not responsible for, such as the /ready, /path, 404 errors etc.
+
+Below Diagram depicts the sequence between the components after an HTTP request arrives on the server.
+
+```mermaid
+sequenceDiagram
+   Client ->> /controllers: HTTP Request
+   /controllers ->>/queries: execute
+   /queries ->> /lib/dib:  execute
+   /lib/dib ->> Database:  execute
+   Database ->> /lib/dib:  result
+   /lib/dib ->> /queries: result
+   /queries ->> /controllers:  result
+   /controllers ->> Client: HTTP Request
+```
