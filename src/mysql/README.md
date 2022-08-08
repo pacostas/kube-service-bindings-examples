@@ -56,6 +56,56 @@ By visiting application's UI, you are able to interact with the application by a
 
 - [Further instructions](../../README.md#interact-with-the-application)
 
+## kube-service-bindings usage for MySQL
+
+For fetching populated data provided by Service Binding Operator under the /binding directory, we need to invoke `getBinding` function from `kube-service-bindings` npm package.
+
+First we require/import `kube-service-bindings` package
+
+```javascript
+const serviceBindings = require("kube-service-bindings");
+```
+
+Then we invoke the geBinding function by specifying the type and the client.
+
+```javascript
+ const connectionOptions = serviceBindings.getBinding("MYSQL", "mysql");
+
+```
+
+**_NOTE:_** _A full list of the supported types and clients, is available on the kube-service-bindings [documentation](https://github.com/nodeshift/kube-service-bindings#usage)_
+
+We can now easily connect to our database by passing the object, provided by getBinding function.
+
+```javascript
+const pool = mysql.createPool(connectionOptions);
+```
+
+Due to kube-service-bindings throws an error in case binding data are not available, we should wrap getBinding invocation.
+
+```javascript
+const mysql = require("mysql");
+
+const serviceBindings = require("kube-service-bindings");
+
+let connectionOptions;
+try {
+  connectionOptions = serviceBindings.getBinding("MYSQL", "mysql");
+} catch (error) {
+  connectionOptions = {
+    host: process.env.MYSQL_HOST || "127.0.0.1",
+    port: process.env.MYSQL_PORT || 3306,
+    database: process.env.MYSQL_DATABASE_NAME || "mysql",
+    user: process.env.MYSQL_USERNAME || "root",
+    password: process.env.MYSQL_PASSWORD || "my-secret-pw"
+  };
+}
+
+const pool = mysql.createPool(connectionOptions);
+```
+
+Thats the exact code we use on the mysql example [/lib/db/index.js](../mysql/lib/db/index.js), for establishing a connection with the database.
+
 ## Viewing the logs
 
 Follow below instructions for further details on how to view the logs of the application
@@ -64,5 +114,6 @@ Follow below instructions for further details on how to view the logs of the app
 
 ## Application's File/Folder Structure
 
-More information about the structure of the Node.js App we deployed, please follow below link 
-* [Application's structure](../../README.md#nodejs-applications-folder-structure)
+More information about the structure of the Node.js App we deployed, please follow below link
+
+- [Application's structure](../../README.md#nodejs-applications-folder-structure)
