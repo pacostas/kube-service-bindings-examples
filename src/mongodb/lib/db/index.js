@@ -1,9 +1,8 @@
 const serviceBindings = require("kube-service-bindings");
 const { MongoClient } = require("mongodb");
 
-let connectionOptions;
-
 let url;
+let connectionOptions;
 
 try {
   ({ url, connectionOptions } = serviceBindings.getBinding(
@@ -15,12 +14,11 @@ try {
   connectionOptions = { auth: { password: "password", username: "root" } };
 }
 
-const dbName = process.env.MONGO_DB_NAME || "admin";
+const mongoClient = new MongoClient(url, connectionOptions);
 
+const dbName = process.env.MONGO_DB_NAME || "admin";
 const collectionName = "products";
 let db;
-
-const mongoClient = new MongoClient(url, connectionOptions);
 
 async function didInitHappen() {
   try {

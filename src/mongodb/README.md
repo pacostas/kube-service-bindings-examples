@@ -79,6 +79,57 @@ By visiting application's UI, you are able to interact with the application by a
 
 - [Further instructions](../../README.md#interact-with-the-application)
 
+## kube-service-bindings usage for mongodb
+
+For fetching populated data provided by Service Binding Operator under the /binding directory, we need to invoke `getBinding` function from `kube-service-bindings` npm package.
+
+First we require/import `kube-service-bindings` package
+
+```javascript
+const serviceBindings = require("kube-service-bindings");
+```
+
+Then we invoke the geBinding function by specifying the type and the client.
+
+```javascript
+const { url, connectionOptions } = serviceBindings.getBinding(
+  "MONGODB",
+  "mongodb"
+);
+```
+
+**_NOTE:_** _A full list of the supported types and clients, is available on the kube-service-bindings [documentation](https://github.com/nodeshift/kube-service-bindings#usage)_
+
+We can now easily connect to our database by passing the destructured objects, provided by getBinding function.
+
+```javascript
+const mongoClient = new MongoClient(url, connectionOptions);
+```
+
+Due to kube-service-bindings throws an error in case binding data are not available, we should wrap getBinding invocation.
+
+```javascript
+const serviceBindings = require("kube-service-bindings");
+const { MongoClient } = require("mongodb");
+
+let url;
+let connectionOptions;
+
+try {
+  ({ url, connectionOptions } = serviceBindings.getBinding(
+    "MONGODB",
+    "mongodb"
+  ));
+} catch (err) {
+  url = "mongodb://root:password@127.0.0.1:27017";
+  connectionOptions = { auth: { password: "password", username: "root" } };
+}
+
+const mongoClient = new MongoClient(url, connectionOptions);
+```
+
+Thats the exact code we use on the mongodb example [/lib/db/index.js](../mongodb/lib/db/index.js), for establishing a connection with the database.
+
 ## Viewing the logs
 
 Follow the below instructions for further details on how to view the logs of the application
@@ -87,5 +138,6 @@ Follow the below instructions for further details on how to view the logs of the
 
 ## Application's File/Folder Structure
 
-More information about the structure of the Node.js App we deployed, please follow below link 
-* [Application's structure](../../README.md#nodejs-applications-folder-structure)
+More information about the structure of the Node.js App, please follow below link:
+
+- [Application's structure](../../README.md#nodejs-applications-folder-structure)
