@@ -6,13 +6,10 @@ try {
   connectionOptions = serviceBindings.getBinding("POSTGRESQL", "pg");
 } catch (error) {
   console.log(error);
-  const serviceHost = process.env.DB_HOST || "127.0.0.1";
-  const user = process.env.DB_USERNAME || "postgres";
-  const password = process.env.DB_PASSWORD || "mysecretpassword";
-  const databaseName = process.env.DB_NAME || "postgres";
-  const port = process.env.DB_PORT || "5432";
-  const connectionString = `postgresql://${user}:${password}@${serviceHost}:${port}/${databaseName}`;
-  connectionOptions = { connectionString };
+  connectionOptions = {
+    connectionString:
+      "postgresql://postgres:mysecretpassword@127.0.0.1:5432/postgres"
+  };
 }
 
 const pool = new Pool(connectionOptions);

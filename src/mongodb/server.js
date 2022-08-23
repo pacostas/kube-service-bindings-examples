@@ -1,7 +1,4 @@
 const http = require("http");
-const { MongoClient } = require("mongodb");
-
-const serviceBindings = require("kube-service-bindings");
 
 const {
   getOne,
@@ -16,50 +13,23 @@ const { ready, live, notFound404 } = require("./handlers/index.js");
 const { serveIndex } = require("./public/index.js");
 
 const PORT = process.env.PORT || 8080;
-const dbName = process.env.MONGO_DB_NAME || "my_app_db";
 
-let db;
-
-let url;
-let connectionOptions;
-
-try {
-  ({ url, connectionOptions } = serviceBindings.getBinding(
-    "MONGODB",
-    "mongodb"
-  ));
-} catch (err) {
-  url = "mongodb://root:root@127.0.0.1:27017";
-  connectionOptions = { auth: { password: "password", username: "root" } };
-}
-
-const mongoClient = new MongoClient(url, connectionOptions);
-
-async function run() {
-  await mongoClient.connect();
-  db = mongoClient.db(dbName);
-  console.log("Connected successfully to database");
-  return "ok";
-}
-
-run()
-  .then()
-  .catch((err) => console.log(err));
+const db = require("./lib/db/index.js");
 
 const server = http.createServer((req, res) => {
   console.log(` Method: ${req.method}\tPath: ${req.url}`);
   if (req.url === "/" && req.method === "GET") {
     serveIndex(req, res);
   } else if (req.url.match(/\/api\/fruits\/\w+/) && req.method === "GET") {
-    getOne(req, res, db);
+    getOne(req, res);
   } else if (req.url.match(/\/api\/fruits\/?/) && req.method === "GET") {
-    getAll(req, res, db);
+    getAll(req, res);
   } else if (req.url.match(/\/api\/fruits\/?/) && req.method === "POST") {
-    createOne(req, res, db);
+    createOne(req, res);
   } else if (req.url.match(/\/api\/fruits\/\w+/) && req.method === "PUT") {
-    updateOne(req, res, db);
+    updateOne(req, res);
   } else if (req.url.match(/\/api\/fruits\/\w+/) && req.method === "DELETE") {
-    deleteOne(req, res, db);
+    deleteOne(req, res);
   } else if (req.url === "/ready" && req.method === "GET") {
     ready(req, res);
   } else if (req.url === "/live" && req.method === "GET") {
@@ -68,5 +38,13 @@ const server = http.createServer((req, res) => {
     notFound404(req, res);
   }
 });
+
+db.init()
+  .then(() => {
+    console.log("Connected successfully to database");
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 server.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
