@@ -82,3 +82,43 @@ The steps are exactly the same as on mysql [example](../mysql/README.md) except 
 1. Click on the radio button `Image stream tag from internal registry`
 1. Select the `odbc-mysql-app` image stream and set as tag the `latest`
 1. Click on Create button
+
+## kube-service-bindings usage for ODBC MySQL
+
+For fetching populated data provided by Service Binding Operator under the /binding directory, we need to invoke `getBinding` function from `kube-service-bindings` npm package.
+
+First we require/import `kube-service-bindings` package
+
+```javascript
+const serviceBindings = require("kube-service-bindings");
+```
+
+Then we invoke the geBinding function by specifying the type and the client.
+
+```javascript
+const connectionOptions = serviceBindings.getBinding("MYSQL", "odbc");
+```
+
+**_NOTE:_** _A full list of the supported types and clients, is available on the kube-service-bindings [documentation](https://github.com/nodeshift/kube-service-bindings#usage)_
+
+We can now easily connect to our database by passing the object, provided by getBinding function.
+
+```javascript
+const odbcConnection = await odbc.pool(connectionConfig.connectionString);
+```
+
+Due to kube-service-bindings throws an error in case binding data are not available, we should wrap getBinding invocation.
+
+```javascript
+const odbc = require("odbc");
+
+const serviceBindings = require("kube-service-bindings");
+let connectionConfig;
+try {
+  connectionConfig = serviceBindings.getBinding("MYSQL", "odbc");
+} catch (err) {
+  // handle error
+}
+```
+
+Thats the exact code we use on the odbc-mysql example [/lib/db/index.js](../odbc-mysql/lib//db/index.js), for establishing a connection with the database.
