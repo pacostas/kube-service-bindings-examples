@@ -237,7 +237,7 @@ For CRUD action on the fruits on the UI, the log will appear on the server.
 
 ## Node.js Applications folder structure
 
-All the examples listed on this repository except the rhea one, are following the same folder structure as shown below.
+All the examples listed on this repository except the rhea one, follow the same folder structure as shown below.
 
 ```
 ├── controllers
