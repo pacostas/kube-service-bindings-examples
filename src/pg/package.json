@@ -10,7 +10,7 @@
     "dev": "SERVICE_BINDING_ROOT=bindings nodemon app.js"
   },
   "dependencies": {
-    "kube-service-bindings": "https://github.com/nodeshift/kube-service-bindings",
+    "kube-service-bindings": "https://github.com/pacostas/kube-service-bindings#dev",
     "pg": "^8.7.3"
   }
 }
